@@ -1,0 +1,1464 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Sasyanterra v2.0 — Autonomous 6WD Agricultural UGV</title>
+  <meta name="description" content="Sasyanterra v2.0 (सस्यनंतेरा) is an AI-assisted 6WD agricultural rover combining forged carbon rocker-bogie suspension, a laser-guided robotic arm, multi-sensor fusion and mobile telemetry.">
+  <link rel="canonical" href="https://sasyanterra.com/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Sasyanterra">
+  <meta property="og:title" content="Sasyanterra v2.0 — Precision autonomy, forged for the field">
+  <meta property="og:description" content="Explore Unit-02: a 6WD autonomous agricultural UGV with laser-guided manipulation, soil sensing, dual payload hoppers and live field telemetry.">
+  <meta property="og:url" content="https://sasyanterra.com/">
+  <meta property="og:image" content="https://sasyanterra.com/assets/share.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="theme-color" content="#fefefe" id="themeMeta">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="assets/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+  <script>document.documentElement.classList.add('js')</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Noto+Sans+Devanagari:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="css/site-kit.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/rp0x-fx.css">
+  <link rel="preload" as="image" href="assets/frames/ezgif-frame-003.jpg">
+</head>
+<body>
+  <!-- Shared Brushed-Titanium SYT Monogram Vector Sprite -->
+  <svg width="0" height="0" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true">
+    <defs>
+      <linearGradient id="syt-metal" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%" stop-color="#f7f9fc"/>
+        <stop offset="28%" stop-color="#cfd6e2"/>
+        <stop offset="54%" stop-color="#8b95a5"/>
+        <stop offset="78%" stop-color="#eef2f8"/>
+        <stop offset="100%" stop-color="#9ca6b6"/>
+      </linearGradient>
+      <linearGradient id="syt-metal-y" x1="0.15" y1="0" x2="0.85" y2="1">
+        <stop offset="0%" stop-color="#ffffff"/>
+        <stop offset="38%" stop-color="#dfe5ef"/>
+        <stop offset="70%" stop-color="#9aa4b4"/>
+        <stop offset="100%" stop-color="#e9eef5"/>
+      </linearGradient>
+      <linearGradient id="syt-sweep-g" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0%" stop-color="#ffffff" stop-opacity="0"/>
+        <stop offset="50%" stop-color="#ffffff" stop-opacity="0.72"/>
+        <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+      </linearGradient>
+      <clipPath id="syt-clip">
+        <path d="M165 11L129 11A119 119 0 0 0 129 249L205 249A44.5 44.5 0 0 1 205 338L56 338L13 411L205 411A118 118 0 0 0 205 175L129 175A45 45 0 0 1 129 85L215 85Z"/>
+        <path d="M194 11L282 11L393 174L434 112L520 112L428 248L428 356L375 411L356 411L356 248Z"/>
+        <path d="M492 11L770 11L727 85L636 85L636 356L583 411L564 411L564 85L449 85Z"/>
+      </clipPath>
+      <symbol id="syt-logo" viewBox="0 0 784 424">
+        <path d="M165 11L129 11A119 119 0 0 0 129 249L205 249A44.5 44.5 0 0 1 205 338L56 338L13 411L205 411A118 118 0 0 0 205 175L129 175A45 45 0 0 1 129 85L215 85Z" fill="url(#syt-metal)" stroke="rgba(255,255,255,0.34)" stroke-width="2.2"/>
+        <path d="M194 11L282 11L393 174L434 112L520 112L428 248L428 356L375 411L356 411L356 248Z" fill="url(#syt-metal-y)" stroke="rgba(255,255,255,0.42)" stroke-width="2.2"/>
+        <path d="M492 11L770 11L727 85L636 85L636 356L583 411L564 411L564 85L449 85Z" fill="url(#syt-metal)" stroke="rgba(255,255,255,0.34)" stroke-width="2.2"/>
+      </symbol>
+    </defs>
+  </svg>
+
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="progress" aria-hidden="true"><i id="progress"></i></div>
+
+  <!-- ================= SYSTEM CALIBRATION BOOT STAGE ================= -->
+  <div class="stage" id="stage" aria-hidden="true">
+    <div class="stage__meta stage__meta--top mono">
+      <span>SYT // SASYANTERRA · <span class="deva">सस्यनंतेरा</span></span>
+      <span>UNIT-02 · 6WD AGRI-UGV</span>
+    </div>
+    <div class="stage__center">
+      <div class="stage__emblem stage__emblem--syt">
+        <svg viewBox="0 0 784 424" aria-hidden="true">
+          <path class="syt-pc" style="--i:0;--rot:-3deg" d="M165 11L129 11A119 119 0 0 0 129 249L205 249A44.5 44.5 0 0 1 205 338L56 338L13 411L205 411A118 118 0 0 0 205 175L129 175A45 45 0 0 1 129 85L215 85Z" fill="url(#syt-metal)" stroke="rgba(255,255,255,0.34)" stroke-width="2.2"/>
+          <path class="syt-pc" style="--i:1;--rot:2deg" d="M194 11L282 11L393 174L434 112L520 112L428 248L428 356L375 411L356 411L356 248Z" fill="url(#syt-metal-y)" stroke="rgba(255,255,255,0.44)" stroke-width="2.2"/>
+          <path class="syt-pc" style="--i:2;--rot:-2deg" d="M492 11L770 11L727 85L636 85L636 356L583 411L564 411L564 85L449 85Z" fill="url(#syt-metal)" stroke="rgba(255,255,255,0.34)" stroke-width="2.2"/>
+          <g clip-path="url(#syt-clip)">
+            <rect class="syt-sweep" x="-260" y="-40" width="240" height="504" fill="url(#syt-sweep-g)"/>
+          </g>
+        </svg>
+      </div>
+      <div class="stage__word">Sasyanterra</div>
+      <div class="stage__bar"><i id="bootBar"></i></div>
+      <span class="mono" style="color:rgba(245,245,242,0.56)">Calibrating optical &amp; chassis telemetry</span>
+    </div>
+    <div class="stage__meta stage__meta--bot mono">
+      <span>SYT · v2.0 Architecture</span>
+      <span class="stage__count" id="count">000</span>
+    </div>
+    <button class="stage__skip mono" id="skip" type="button">Skip intro</button>
+  </div>
+
+  <!-- ================= NAVIGATION ================= -->
+  <header class="nav" id="nav">
+    <a class="brand" href="#top" aria-label="Sasyanterra SYT, back to top">
+      <span class="brand__mark brand__mark--syt" aria-hidden="true">
+        <svg viewBox="0 0 784 424"><use href="#syt-logo"/></svg>
+      </span>
+      <span class="brand__text">
+        <span class="brand__name">Sasyanterra</span>
+        <span class="brand__sub"><span>SYT · v2.0</span><span>//</span><span class="deva">सस्यनंतेरा</span></span>
+      </span>
+    </a>
+
+    <nav class="nav__nav" aria-label="Primary">
+      <ul class="nav__links">
+        <li><a href="#anatomy">Architecture</a></li>
+        <li><a href="#subsystems">Subsystems</a></li>
+        <li><a href="#story">Vision</a></li>
+        <li><a href="#lab">Lab</a></li>
+        <li><a href="#operations">Field Ops</a></li>
+        <li><a href="#app">App</a></li>
+        <li><a href="#signal">Signal</a></li>
+        <li><a href="#join">Join us</a></li>
+      </ul>
+    </nav>
+
+    <div class="nav__right">
+      <span class="nav__clock mono" title="Live field telemetry time, India"><i aria-hidden="true"></i>IST <span data-ist-clock>--:--</span></span>
+      <div class="lang lang--nav" role="group" aria-label="Language">
+        <button type="button" data-lang="en" lang="en">EN</button>
+        <button type="button" data-lang="ta" lang="ta">தமிழ்</button>
+        <button type="button" data-lang="hi" lang="hi">हिन्दी</button>
+      </div>
+      <a class="btn nav__cta press" href="https://wa.me/919500702412?text=Hi%20Sasyanterra%20team%2C%20" target="_blank" rel="noopener" data-haptic="15">Message us</a>
+      <button class="btn btn--ghost nav__menu press" type="button" data-menu-toggle aria-controls="menu" aria-expanded="false" data-haptic="12">Menu</button>
+    </div>
+  </header>
+
+  <!-- ================= MOBILE / FULLSCREEN MENU ================= -->
+  <div id="menu" data-menu hidden role="dialog" aria-modal="true" aria-label="Menu">
+    <div class="wrap">
+      <div class="menu__top">
+        <span class="brand">
+          <span class="brand__mark brand__mark--syt" aria-hidden="true">
+            <svg viewBox="0 0 784 424"><use href="#syt-logo"/></svg>
+          </span>
+          <span class="brand__text">
+            <span class="brand__name" style="color:#fff">Sasyanterra</span>
+            <span class="brand__sub" style="color:var(--copper-hi)"><span>SYT · v2.0</span><span>//</span><span class="deva">सस्यनंतेरा</span></span>
+          </span>
+        </span>
+        <button class="btn btn--ghost press" type="button" data-menu-toggle aria-controls="menu" data-haptic="12" style="--fg:#f5f5f2;--bd:rgba(255,255,255,0.25)">Close</button>
+      </div>
+      <nav aria-label="Menu">
+        <ul class="menu__list">
+          <li><a href="#anatomy"><span>01</span>Architecture</a></li>
+          <li><a href="#ring"><span>02</span>Orbital Ring</a></li>
+          <li><a href="#story"><span>03</span>Vision &amp; Team</a></li>
+          <li><a href="#lab"><span>04</span>Robotics Lab</a></li>
+          <li><a href="#operations"><span>05</span>Field Ops</a></li>
+          <li><a href="#app"><span>06</span>Telemetry App</a></li>
+          <li><a href="#signal"><span>07</span>Live Signal</a></li>
+          <li><a href="#mutation"><span>08</span>SYT Mutation</a></li>
+          <li><a href="#contact"><span>09</span>Contact</a></li>
+        </ul>
+      </nav>
+      <div class="lang lang--menu" role="group" aria-label="Language">
+        <button type="button" data-lang="en" lang="en">EN</button>
+        <button type="button" data-lang="ta" lang="ta">தமிழ்</button>
+        <button type="button" data-lang="hi" lang="hi">हिन्दी</button>
+      </div>
+      <div class="menu__foot">
+        <div style="display:flex;flex-wrap:wrap;gap:0.75rem">
+          <a class="btn btn--copper press" href="https://wa.me/919500702412?text=Hi%20Sasyanterra%20team%2C%20" target="_blank" rel="noopener" data-haptic="15">Message us on WhatsApp</a>
+          <button class="btn btn--ghost press" type="button" data-inquiry style="--fg:#f5f5f2;--bd:rgba(255,255,255,0.28)">Guided briefing →</button>
+        </div>
+        <span class="mono" style="color:rgba(245,245,242,0.52)">SYT · UNIT-02 · IST <span data-ist-clock>--:--</span></span>
+      </div>
+    </div>
+  </div>
+
+  <main id="main">
+    <!-- ================= HERO (STUDIO DAYLIGHT + INTERACTIVE DOT FIELD) ================= -->
+    <section class="hero" id="top" aria-labelledby="hero-title">
+      <div class="hero-motif" aria-hidden="true"><div class="hero-motif__lines"></div></div>
+      <canvas class="hero__dots-cv" id="heroDotsCanvas" aria-hidden="true"></canvas>
+
+      <div class="hero__main">
+        <div class="hero__copy">
+          <div class="hero__syt-bar" data-h style="--i:0">
+            <div class="syt-hero-card" title="Click to pulse field radar · Brushed Titanium SYT Mark" role="button" tabindex="0" aria-label="Trigger SYT field pulse">
+              <svg viewBox="0 0 784 424" aria-hidden="true">
+                <use href="#syt-logo"/>
+                <g clip-path="url(#syt-clip)">
+                  <rect class="syt-sweep" x="-260" y="-40" width="240" height="504" fill="url(#syt-sweep-g)"/>
+                </g>
+              </svg>
+            </div>
+            <div class="hero__badges" style="margin-bottom:0">
+              <span class="pill pill--live"><i aria-hidden="true"></i><span>Prototype · Unit-02</span></span>
+              <span class="pill pill--copper">SYT · Sasyanterra v2.0 · <span class="deva">सस्यनंतेरा</span></span>
+              <span class="pill">6WD Agri-UGV</span>
+            </div>
+          </div>
+          <h1 id="hero-title" data-hero-title>Precision autonomy, <em>forged for the field.</em></h1>
+          <p class="hero__lede" data-h style="--i:3">Sasyanterra is a next-generation multipurpose agricultural rover. Six-wheel carbon rocker-bogie mobility, a laser-guided manipulator arm, multi-sensor fusion and live mobile telemetry—engineered to make farming smarter and effortless.</p>
+          <div class="hero__actions" data-h style="--i:4">
+            <a class="btn press" href="#anatomy" data-haptic="15" data-magnetic="0.18">Explore 3D architecture</a>
+            <button class="btn btn--ghost press" type="button" data-inquiry data-haptic="15">Guided briefing →</button>
+            <a class="btn btn--ghost press" href="https://wa.me/919500702412?text=Hi%20Sasyanterra%20team%2C%20" target="_blank" rel="noopener" data-haptic="15">Message us on WhatsApp</a>
+          </div>
+        </div>
+
+        <div class="hero__visual" data-h style="--i:2">
+          <div class="hero__stage-card">
+            <img class="hero__rover-img" id="heroRoverImg" src="assets/frames/ezgif-frame-003.jpg" width="1920" height="1080" alt="Sasyanterra v2.0 Unit-02: matte-graphite 6WD agricultural rover with carbon-truss robotic arm, laser pruning shear, cyan LED strips and anodized copper detailing" fetchpriority="high">
+            <span class="hchip hchip--laser" aria-hidden="true"><i></i>Laser shear · active</span>
+            <span class="hchip hchip--cyan" aria-hidden="true"><i></i>Optical + LiDAR array</span>
+            <span class="hchip hchip--copper" aria-hidden="true"><i></i>6WD carbon rocker-bogie</span>
+          </div>
+        </div>
+      </div>
+
+      <ul class="hero__caps" aria-label="Core capabilities">
+        <li class="cap" data-h style="--i:5">
+          <span class="cap__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>
+          </span>
+          <b>Autonomous row drive</b>
+          <span>6WD rocker-bogie traction across uneven furrows.</span>
+        </li>
+        <li class="cap" data-h style="--i:6">
+          <span class="cap__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v12"/><path d="M12 8c3-3 6-2 6 1-3 2-6 1-6-1z"/><path d="M4 18h16"/><path d="M7 22h10"/></svg>
+          </span>
+          <b>Soil &amp; crop intelligence</b>
+          <span>Monitors moisture, nutrients and surface health.</span>
+        </li>
+        <li class="cap" data-h style="--i:7">
+          <span class="cap__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="7" cy="12" r="2.5"/><path d="M13 7a7 7 0 0 1 0 10"/><path d="M17 4a11 11 0 0 1 0 16"/></svg>
+          </span>
+          <b>Obstacle lock</b>
+          <span>Spots rocks, ruts and hazards before contact.</span>
+        </li>
+        <li class="cap" data-h style="--i:8">
+          <span class="cap__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 20h7"/><path d="M8.5 20v-6l7-8 5 4"/><circle cx="8.5" cy="14" r="1.8"/><circle cx="15.5" cy="6" r="1.8"/></svg>
+          </span>
+          <b>Laser-guided arm</b>
+          <span>Carbon-truss manipulator &amp; dual payload hoppers.</span>
+        </li>
+      </ul>
+
+      <div class="hero__strip">
+        <dl class="hero__strip-stats">
+          <div><dt class="mono">Field Clock</dt><dd>IST <span data-ist-clock data-seconds>--:--:--</span></dd></div>
+          <div><dt class="mono">Platform</dt><dd>SYT · Unit-02 (6WD)</dd></div>
+          <div><dt class="mono">X-Ray Cinema</dt><dd>299 Frames · Live</dd></div>
+          <div><dt class="mono">Interactive Lab</dt><dd>06 Playgrounds</dd></div>
+        </dl>
+        <a class="scroll-cue mono" href="#anatomy"><span>Into the X-Ray</span><i aria-hidden="true"></i></a>
+      </div>
+    </section>
+
+    <!-- ================= 299-FRAME EXPLODED ARCHITECTURE CINEMA ================= -->
+    <section class="anatomy" id="anatomy" aria-labelledby="anatomy-heading">
+      <div class="anatomy__track" id="anatomyTrack">
+        <div class="anatomy__pin" id="anatomyPin">
+          <div class="anatomy__top">
+            <span class="anatomy__kicker mono">Architectural X-Ray · Unit-02</span>
+            <div class="anatomy__readout mono" aria-live="off">
+              <span id="frameStat">FRAME <b>001</b> / 299</span>
+              <span id="loadStat">READY</span>
+            </div>
+          </div>
+
+          <div class="anatomy__center">
+            <div class="anatomy__canvas-wrap">
+              <canvas class="anatomy__canvas" id="anatomyCanvas" width="1920" height="1080" role="img" aria-label="Interactive 299-frame exploded view of the Sasyanterra v2.0 rover transitioning from studio white to obsidian space as every internal subsystem separates."></canvas>
+            </div>
+
+            <article class="anatomy__card" aria-live="polite">
+              <div class="anatomy__step-tag mono">
+                <span id="chapIdx">CHAPTER 01 / 06</span>
+                <span id="chapRange">FRM 001–050</span>
+              </div>
+              <h2 id="anatomy-heading">Studio profile &amp; laser targeting</h2>
+              <p id="chapDesc">Faceted matte-graphite armor meets anodized copper hardware, cyan status lightbars and an optical laser-guided pruning shear.</p>
+              <div class="anatomy__specs" id="chapSpecs">
+                <span>6WD Agri-UGV</span>
+                <span>Laser End-Effector</span>
+              </div>
+            </article>
+          </div>
+
+          <div class="anatomy__bot">
+            <div class="anatomy__tabs" role="tablist" aria-label="Hardware breakdown chapters">
+              <button class="atab is-active press" type="button" data-chap="0"><span class="mono">01</span><b>Studio to Stealth</b></button>
+              <button class="atab press" type="button" data-chap="1"><span class="mono">02</span><b>Truss Manipulator</b></button>
+              <button class="atab press" type="button" data-chap="2"><span class="mono">03</span><b>Armored Canopy</b></button>
+              <button class="atab press" type="button" data-chap="3"><span class="mono">04</span><b>AI Compute &amp; Cooling</b></button>
+              <button class="atab press" type="button" data-chap="4"><span class="mono">05</span><b>Payload Hoppers</b></button>
+              <button class="atab press" type="button" data-chap="5"><span class="mono">06</span><b>6WD Drivetrain</b></button>
+            </div>
+            <div class="anatomy__scrub">
+              <span class="mono" style="opacity:0.65">Scrub</span>
+              <input class="anatomy__range" id="anatomyRange" type="range" min="1" max="299" value="1" aria-label="Scrub through 299 exploded hardware frames">
+              <span class="mono" id="explodePct" style="min-width:3.6em;text-align:right">0%</span>
+            </div>
+          </div>
+
+          <!-- Fallback for no-JS / reduced-motion -->
+          <div class="anatomy__fallback wrap">
+            <p class="kicker mono" style="color:var(--copper-hi)">Exploded architecture</p>
+            <h2 style="font-size:clamp(2rem,4.5vw,4rem);margin-bottom:1.5rem">Inside Sasyanterra v2.0</h2>
+            <img src="assets/photos/exploded-full.jpg" width="1440" height="822" alt="Full exploded architectural render of Sasyanterra v2.0 showing compute boards, battery packs, cooling heatsink, hoppers, truss arm and planetary wheel hubs" style="border-radius:18px">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= TELEMETRY MARQUEE BAND ================= -->
+    <div class="band on-dark" aria-hidden="true">
+      <div data-marquee data-speed="34">
+        <span>Sasyanterra v2.0</span>
+        <span>6WD Rocker-Bogie</span>
+        <span>Laser-Guided Shear</span>
+        <span>Dual Compute Stack</span>
+        <span>Metered Seed Hopper</span>
+        <span>Sasyanterra OS</span>
+        <span class="deva">सस्यनंतेरा</span>
+      </div>
+    </div>
+
+    <!-- ================= MACRO SUBSYSTEMS BENTO GRID ================= -->
+    <section class="section subsystems on-dark" id="subsystems" aria-labelledby="sub-title">
+      <div class="wrap">
+        <div class="subsystems__head">
+          <p class="kicker mono" data-reveal>Hardware subsystems</p>
+          <h2 id="sub-title" data-split>Every module built to <em>service and scale.</em></h2>
+          <p class="subsystems__lede" data-reveal>Modular V-slot aluminum architecture lets us swap end-effectors, service electronics and upgrade payloads in minutes rather than days.</p>
+        </div>
+
+        <ul class="bento">
+          <li class="bento__item" data-reveal>
+            <div class="bento__media">
+              <img src="assets/photos/stealth-hull.jpg" width="960" height="490" alt="Close-up of the Sasyanterra v2.0 faceted matte-black composite hull with cyan LED lightbars and copper Unit-02 stencil" loading="lazy" decoding="async">
+              <span class="bento__tag mono">SYS // 01 · ENCLOSURE</span>
+            </div>
+            <div class="bento__body">
+              <h3>Faceted weather-sealed hull</h3>
+              <p>Low-profile composite fairing shields internal electronics from dust, spray and field debris, accented by high-visibility cyan optical status strips.</p>
+            </div>
+          </li>
+
+          <li class="bento__item" data-reveal data-reveal-i="1">
+            <div class="bento__media">
+              <img src="assets/photos/exploded-shear.jpg" width="900" height="600" alt="Exploded view of the carbon-truss articulated arm and dual-blade precision pruning shear with bronze wrist collar" loading="lazy" decoding="async">
+              <span class="bento__tag mono">SYS // 02 · MANIPULATOR</span>
+            </div>
+            <div class="bento__body">
+              <h3>Carbon-truss laser arm</h3>
+              <p>Lightweight truss boom with braided internal routing, bronze-anodized wrist collar, optical targeting pod and interchangeable pruning or gripper tools.</p>
+            </div>
+          </li>
+
+          <li class="bento__item" data-reveal>
+            <div class="bento__media">
+              <img src="assets/photos/compute-stack.jpg" width="900" height="600" alt="Exploded view of dual AI compute circuit boards, front optical LiDAR pod and dual battery packs" loading="lazy" decoding="async">
+              <span class="bento__tag mono">SYS // 03 · AVIONICS</span>
+            </div>
+            <div class="bento__body">
+              <h3>Dual-board AI &amp; sensor stack</h3>
+              <p>Dedicated edge compute and motor-control PCBs paired with front optical/LiDAR sensing, GNSS/IMU fusion and dual high-density battery packs.</p>
+            </div>
+          </li>
+
+          <li class="bento__item" data-reveal data-reveal-i="1">
+            <div class="bento__media">
+              <img src="assets/photos/payload-hoppers.jpg" width="900" height="600" alt="Exploded view of the ducted heatsink fan, translucent fluid tank and rear gear-driven seed hopper" loading="lazy" decoding="async">
+              <span class="bento__tag mono">SYS // 04 · PAYLOADS</span>
+            </div>
+            <div class="bento__body">
+              <h3>Fluid tank &amp; gear-metered hopper</h3>
+              <p>Side translucent micro-dosing tank and a rear transparent granular hopper with precision spur-gear metering for targeted seeding or nutrition.</p>
+            </div>
+          </li>
+
+          <li class="bento__item" data-reveal data-reveal-i="2">
+            <div class="bento__media">
+              <img src="assets/photos/chassis-core.jpg" width="900" height="600" alt="Close-up of the extruded aluminum V-slot chassis rail, brass PCB standoffs, heatsink and battery bay" loading="lazy" decoding="async">
+              <span class="bento__tag mono">SYS // 05 · SPINE</span>
+            </div>
+            <div class="bento__body">
+              <h3>Extruded V-slot structural spine</h3>
+              <p>Rigid T-slot aluminum backbone with active finned heatsink cooling and quick-release access to batteries and power distribution.</p>
+            </div>
+          </li>
+
+          <li class="bento__item" data-reveal>
+            <div class="bento__media">
+              <img src="assets/photos/drivetrain-hubs.jpg" width="900" height="600" alt="Exploded view of carbon-fiber rocker-bogie suspension links, stainless turnbuckle, planetary hub gears and beadlock tires" loading="lazy" decoding="async">
+              <span class="bento__tag mono">SYS // 06 · MOBILITY</span>
+            </div>
+            <div class="bento__body">
+              <h3>6WD carbon rocker-bogie &amp; planetary hubs</h3>
+              <p>Six independent high-torque planetary hub drives mounted on CNC carbon-fiber suspension links with stainless steel turnbuckles and beadlock all-terrain tires—keeping all six wheels planted over ruts, stones and wet soil.</p>
+            </div>
+          </li>
+        </ul>
+
+        <p class="mono subsystems__note">Design renders of Unit-02 (v2.0) · hardware specifications evolve with field testing</p>
+      </div>
+    </section>
+
+    <!-- ================= 3D ORBITAL SUBSYSTEM RING (RP0X RING) ================= -->
+    <section class="ring-sec on-dark" id="ring" aria-labelledby="ring-title">
+      <div class="wrap ring-sec__head">
+        <div>
+          <p class="kicker mono" data-reveal>360° Orbital Carousel</p>
+          <h2 id="ring-title" data-split>Six modules in <em>live orbit.</em></h2>
+        </div>
+        <p class="mono" style="color:rgba(245,245,242,0.58)">Scroll or use controls to rotate around the SYT core</p>
+      </div>
+
+      <div class="ring" data-ring>
+        <div class="ring__stage">
+          <p class="ring__corner ring__corner--tl mono" aria-hidden="true"><span>06 SUBSYSTEMS</span><i></i><span>ORBITAL VIEW</span></p>
+          <p class="ring__corner ring__corner--tr mono" aria-hidden="true"><span class="dot"></span><span>SYT // UNIT-02</span><i></i><span>ACTIVE</span></p>
+          <p class="ring__corner ring__corner--bl mono" aria-hidden="true"><span>6WD ROCKER-BOGIE</span></p>
+          <p class="ring__corner ring__corner--br mono" aria-hidden="true"><span>SCROLL TO ORBIT ↓</span></p>
+
+          <div class="ring__scene">
+            <div class="ring__orbit" aria-hidden="true"></div>
+
+            <div class="ring__hero" aria-hidden="true">
+              <span class="ring__hero-k mono">SYT // CORE</span>
+              <svg class="ring__logo" viewBox="0 0 784 424"><use href="#syt-logo"/></svg>
+              <span class="ring__hero-c mono"><b data-ring-no>01</b> / 06</span>
+              <span class="ring__hero-t mono">SASYANTERRA v2.0</span>
+            </div>
+
+            <ul class="ring__cards" data-ring-cards>
+              <li class="rc" data-ring-card>
+                <a class="rc__face" href="#anatomy">
+                  <img class="rc__img" src="assets/photos/stealth-hull.jpg" width="960" height="490" alt="" loading="lazy" decoding="async">
+                  <div class="rc__top">
+                    <span class="rc__chip mono">SYS // 01</span>
+                    <span class="rc__no mono">01 / 06</span>
+                  </div>
+                  <div class="rc__bot">
+                    <span class="rc__title">Stealth Composite Hull</span>
+                    <span class="rc__arrow" aria-hidden="true">↗</span>
+                  </div>
+                </a>
+              </li>
+
+              <li class="rc" data-ring-card>
+                <a class="rc__face" href="#lab" data-open-xp="pop">
+                  <img class="rc__img" src="assets/photos/exploded-shear.jpg" width="900" height="600" alt="" loading="lazy" decoding="async">
+                  <div class="rc__top">
+                    <span class="rc__chip mono">SYS // 02</span>
+                    <span class="rc__no mono">02 / 06</span>
+                  </div>
+                  <div class="rc__bot">
+                    <span class="rc__title">Carbon-Truss Laser Arm</span>
+                    <span class="rc__arrow" aria-hidden="true">↗</span>
+                  </div>
+                </a>
+              </li>
+
+              <li class="rc" data-ring-card>
+                <a class="rc__face" href="#reactor">
+                  <img class="rc__img" src="assets/photos/compute-stack.jpg" width="900" height="600" alt="" loading="lazy" decoding="async">
+                  <div class="rc__top">
+                    <span class="rc__chip mono">SYS // 03</span>
+                    <span class="rc__no mono">03 / 06</span>
+                  </div>
+                  <div class="rc__bot">
+                    <span class="rc__title">Dual Edge AI &amp; LiDAR</span>
+                    <span class="rc__arrow" aria-hidden="true">↗</span>
+                  </div>
+                </a>
+              </li>
+
+              <li class="rc" data-ring-card>
+                <a class="rc__face" href="#operations">
+                  <img class="rc__img" src="assets/photos/payload-hoppers.jpg" width="900" height="600" alt="" loading="lazy" decoding="async">
+                  <div class="rc__top">
+                    <span class="rc__chip mono">SYS // 04</span>
+                    <span class="rc__no mono">04 / 06</span>
+                  </div>
+                  <div class="rc__bot">
+                    <span class="rc__title">Fluid &amp; Seed Hoppers</span>
+                    <span class="rc__arrow" aria-hidden="true">↗</span>
+                  </div>
+                </a>
+              </li>
+
+              <li class="rc" data-ring-card>
+                <a class="rc__face" href="#lab" data-open-xp="scan">
+                  <img class="rc__img" src="assets/photos/chassis-core.jpg" width="900" height="600" alt="" loading="lazy" decoding="async">
+                  <div class="rc__top">
+                    <span class="rc__chip mono">SYS // 05</span>
+                    <span class="rc__no mono">05 / 06</span>
+                  </div>
+                  <div class="rc__bot">
+                    <span class="rc__title">V-Slot Aluminum Spine</span>
+                    <span class="rc__arrow" aria-hidden="true">↗</span>
+                  </div>
+                </a>
+              </li>
+
+              <li class="rc" data-ring-card>
+                <a class="rc__face" href="#operations">
+                  <img class="rc__img" src="assets/photos/drivetrain-hubs.jpg" width="900" height="600" alt="" loading="lazy" decoding="async">
+                  <div class="rc__top">
+                    <span class="rc__chip mono">SYS // 06</span>
+                    <span class="rc__no mono">06 / 06</span>
+                  </div>
+                  <div class="rc__bot">
+                    <span class="rc__title">6WD Planetary Drivetrain</span>
+                    <span class="rc__arrow" aria-hidden="true">↗</span>
+                  </div>
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          <div class="ring__controls" role="group" aria-label="Orbital subsystem controls">
+            <button type="button" class="ring__btn" data-ring-prev aria-label="Previous subsystem">
+              <svg viewBox="0 0 12 20" aria-hidden="true"><path d="M10 2L2 10l8 8"/></svg>
+            </button>
+            <span class="ring__badge mono">SCROLL OR CLICK · ORBITAL DECK</span>
+            <button type="button" class="ring__btn" data-ring-next aria-label="Next subsystem">
+              <svg viewBox="0 0 12 20" aria-hidden="true"><path d="M2 2l8 8-8 8"/></svg>
+            </button>
+          </div>
+
+          <div class="ring__dots" role="group" aria-label="Jump to subsystem">
+            <button type="button" class="ring__dot" data-ring-dot aria-label="01 Hull" aria-current="true"></button>
+            <button type="button" class="ring__dot" data-ring-dot aria-label="02 Laser Arm"></button>
+            <button type="button" class="ring__dot" data-ring-dot aria-label="03 Edge AI"></button>
+            <button type="button" class="ring__dot" data-ring-dot aria-label="04 Hoppers"></button>
+            <button type="button" class="ring__dot" data-ring-dot aria-label="05 V-Slot Spine"></button>
+            <button type="button" class="ring__dot" data-ring-dot aria-label="06 6WD Drivetrain"></button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= 3D PERSPECTIVE SCROLL CORRIDOR (RP0X CORRIDOR) ================= -->
+    <section class="corridor" id="corridor" data-corridor aria-labelledby="corridor-title">
+      <div class="corridor__stage">
+        <div class="corridor__scene" aria-hidden="true">
+          <div class="corridor__world" data-corridor-world>
+            <p class="ctile ctile--q" style="transform:translate3d(-34vw,-18vh,-220px) rotateY(10deg)">What if a rover read the soil before touching a single leaf?</p>
+            <p class="ctile ctile--k" style="transform:translate3d(32vw,16vh,-430px) rotateY(-10deg)">MOBILITY // 01<b>6WD Rocker-Bogie</b></p>
+            <p class="ctile ctile--w" style="transform:translate3d(-26vw,22vh,-660px) rotateY(9deg)">Sasya</p>
+            <p class="ctile ctile--q" style="transform:translate3d(30vw,-20vh,-900px) rotateY(-10deg)">Why spray an entire acre when only three plants need care?</p>
+            <p class="ctile ctile--p" style="transform:translate3d(-35vw,4vh,-1140px) rotateY(11deg)">LASER-GUIDED SHEAR · SUB-MM</p>
+            <p class="ctile ctile--k" style="transform:translate3d(26vw,22vh,-1380px) rotateY(-9deg)">AVIONICS // 02<b>Dual Edge AI Stack</b></p>
+            <p class="ctile ctile--q" style="transform:translate3d(-29vw,-22vh,-1620px) rotateY(10deg)">Can one modular chassis seed, sense, prune and haul?</p>
+            <p class="ctile ctile--w" style="transform:translate3d(34vw,-6vh,-1860px) rotateY(-11deg)">Terra</p>
+            <p class="ctile ctile--k" style="transform:translate3d(-25vw,21vh,-2100px) rotateY(9deg)">PERCEPTION // 03<b>LiDAR + Optical Lock</b></p>
+            <p class="ctile ctile--p" style="transform:translate3d(28vw,18vh,-2340px) rotateY(-10deg)">ZERO SOIL COMPACTION</p>
+            <p class="ctile ctile--q" style="transform:translate3d(-33vw,-12vh,-2580px) rotateY(10deg)">What happens when aerospace robotics meets living farmland?</p>
+            <p class="ctile ctile--k" style="transform:translate3d(30vw,-22vh,-2820px) rotateY(-9deg)">PAYLOADS // 04<b>Gear-Metered Hopper</b></p>
+            <p class="ctile ctile--w" style="transform:translate3d(-24vw,18vh,-3060px) rotateY(8deg)">Unit-02</p>
+            <p class="ctile ctile--k" style="transform:translate3d(25vw,14vh,-3300px) rotateY(-8deg)">TELEMETRY // 05<b>Sasyanterra OS Live</b></p>
+          </div>
+        </div>
+        <div class="corridor__vignette" aria-hidden="true"></div>
+        <div class="corridor__end" data-corridor-end>
+          <div class="corridor__mark">
+            <svg viewBox="0 0 784 424" aria-hidden="true"><use href="#syt-logo"/></svg>
+          </div>
+          <h2 class="corridor__line" id="corridor-title">Farming doesn’t need heavier machines. <em>It needs smarter ones.</em></h2>
+          <p class="mono" style="color:var(--muted)">SYT // SASYANTERRA ENGINEERING MANIFESTO</p>
+        </div>
+        <p class="corridor__cue mono" data-corridor-cue aria-hidden="true">Scroll through the field thesis ↓</p>
+      </div>
+
+      <div class="corridor__fallback">
+        <p class="kicker mono">Field thesis</p>
+        <h2>Farming doesn’t need heavier machines. It needs smarter ones.</h2>
+        <p style="max-width:58ch;color:var(--ink-soft)">From sub-surface soil diagnostics to laser-guided pruning and zero-compaction 6WD mobility, Sasyanterra replaces brute-force guesswork with targeted precision.</p>
+      </div>
+    </section>
+
+    <!-- ================= VISION & TEAM ================= -->
+    <section class="section story-sec" id="story" aria-labelledby="story-title">
+      <div class="wrap">
+        <p class="kicker mono" data-reveal>The vision · Sasya + Terra</p>
+        <h2 class="story__lead" id="story-title" data-words>What if every farm had a tireless autonomous partner? One that reads the living soil, spots obstacles early, and lends a precision arm.</h2>
+
+        <div class="story__cols">
+          <div class="story__card" data-reveal>
+            <h3>Why Sasyanterra exists</h3>
+            <p>Named from Sanskrit <em>Sasya</em> (सस्य — crop and harvest) and <em>Terra</em> (living earth), Sasyanterra tackles the heavy, repetitive labour of everyday farming. Our mission is to reduce manual strain, monitor crop and soil health continuously, and bring aerospace-grade robotics within reach of real farms.</p>
+          </div>
+          <div class="story__card" data-reveal data-reveal-i="1">
+            <h3>What Unit-02 delivers</h3>
+            <p>Sasyanterra v2.0 unites six-wheel all-terrain mobility, multi-sensor obstacle perception, soil diagnostics, dual dispensing hoppers and a laser-guided robotic arm in one modular platform—streaming clear insights and recommendations straight to your phone.</p>
+          </div>
+        </div>
+
+        <div class="team" data-reveal>
+          <div class="team__head">
+            <h3>Built by the Sasyanterra team</h3>
+            <span class="mono" style="color:var(--muted)">Stage: working prototype · v2.0</span>
+          </div>
+          <ul class="team__grid">
+            <li class="team__member">
+              <span class="team__idx mono">01 // LEAD</span>
+              <div>
+                <b>Sai Siddarth</b>
+                <span class="team__role">Team Leader</span>
+              </div>
+            </li>
+            <li class="team__member">
+              <span class="team__idx mono">02 // CO-LEAD</span>
+              <div>
+                <b>Rian</b>
+                <span class="team__role">Assistant Team Leader</span>
+              </div>
+            </li>
+            <li class="team__member">
+              <span class="team__idx mono">03 // SYSTEMS</span>
+              <div>
+                <b>Pranaouv</b>
+                <span class="team__role">Developer</span>
+              </div>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Interactive 3D Draggable SYT Engineering Loop Cube -->
+        <div class="syt-loop" data-process-cube>
+          <div class="syt-loop__grid">
+            <div>
+              <p class="kicker mono">How we engineer · 05-stage loop</p>
+              <h3 style="font-size:clamp(1.8rem,1rem+2.6vw,3.1rem);margin:0.35rem 0 0">Click a stage—or grab and spin the SYT block.</h3>
+              <ol class="syt-steps">
+                <li class="syt-step is-active">
+                  <span class="mono">01</span>
+                  <b>Observe</b>
+                  <p>Walk real rows with farmers to map repetitive strain, soil variability and crop bottlenecks first-hand.</p>
+                </li>
+                <li class="syt-step">
+                  <span class="mono">02</span>
+                  <b>CAD &amp; Forge</b>
+                  <p>Model modular V-slot spines, carbon rocker-bogie links and quick-swap end-effectors for rapid field service.</p>
+                </li>
+                <li class="syt-step">
+                  <span class="mono">03</span>
+                  <b>Sensor Fusion</b>
+                  <p>Fuse optical cameras, LiDAR range-finding, IMU attitude and soil probes on dual onboard compute boards.</p>
+                </li>
+                <li class="syt-step">
+                  <span class="mono">04</span>
+                  <b>Field Torture</b>
+                  <p>Validate traction, dust sealing, thermal headroom and battery endurance across uneven ruts, stones and wet soil.</p>
+                </li>
+                <li class="syt-step">
+                  <span class="mono">05</span>
+                  <b>Iterate</b>
+                  <p>Feed telemetry logs straight into Unit-03 refinements and Sasyanterra OS crop-care intelligence.</p>
+                </li>
+              </ol>
+            </div>
+
+            <div class="cube-box">
+              <div class="cube-scene" tabindex="0" role="img" aria-label="Interactive 3D SYT hardware cube — drag or use arrow keys to rotate">
+                <div class="cube-ring" aria-hidden="true"></div>
+                <div class="cube-el">
+                  <div class="cface cface--1">
+                    <svg viewBox="0 0 784 424" aria-hidden="true"><use href="#syt-logo"/></svg>
+                    <span>Sasyanterra</span>
+                  </div>
+                  <div class="cface cface--2"><b>6WD</b><span>Rocker-Bogie</span></div>
+                  <div class="cface cface--3"><b>AI</b><span>Sensor Fusion</span></div>
+                  <div class="cface cface--4"><b>02</b><span>Unit Prototype</span></div>
+                  <div class="cface cface--5"><b>OS</b><span>Live Telemetry</span></div>
+                  <div class="cface cface--6"><b>ARM</b><span>Laser Shear</span></div>
+                </div>
+              </div>
+              <div class="cube-shadow" aria-hidden="true"></div>
+              <span class="mono" style="color:var(--muted)">Drag or use ← ↑ ↓ → keys to spin</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= AUTONOMY & TELEMETRY PARTICLE REACTOR (RP0X REACTOR) ================= -->
+    <section class="section reactor-sec on-dark" id="reactor" aria-labelledby="reactor-title">
+      <div class="wrap">
+        <div class="reactor-sec__head">
+          <div>
+            <p class="kicker mono" data-reveal>Autonomy Pipeline · Live Stream</p>
+            <h2 id="reactor-title" data-split>Inside the <em>decision reactor.</em></h2>
+            <p class="reactor-sec__lede" data-reveal>Watch raw optical, LiDAR and soil packets get filtered for field noise, fused by onboard AI, and dispatched as real-time actuation commands.</p>
+          </div>
+          <span class="mono" style="color:rgba(245,245,242,0.58)">Click any stage node to inspect &amp; burst</span>
+        </div>
+
+        <div class="rx" data-reactor>
+          <ol class="rx__stages">
+            <li class="rx__st" data-u="0.08" data-v="0.50">
+              <button type="button" class="rx__btn" data-stage="0" aria-pressed="true">
+                <span class="mono">01</span><b>Ingest</b>
+              </button>
+            </li>
+            <li class="rx__st" data-u="0.34" data-v="0.50">
+              <button type="button" class="rx__btn" data-stage="1" aria-pressed="false">
+                <span class="mono">02</span><b>Filter</b>
+              </button>
+            </li>
+            <li class="rx__st" data-u="0.60" data-v="0.50">
+              <button type="button" class="rx__btn" data-stage="2" aria-pressed="false">
+                <span class="mono">03</span><b>Fuse AI</b>
+              </button>
+            </li>
+            <li class="rx__st" data-u="0.84" data-v="0.50">
+              <button type="button" class="rx__btn" data-stage="3" aria-pressed="false">
+                <span class="mono">04</span><b>Actuate</b>
+              </button>
+            </li>
+          </ol>
+
+          <div class="rx__field" data-rx-field>
+            <canvas class="rx__cv" data-rx-cv aria-hidden="true"></canvas>
+            <ul class="rx__products" aria-label="Actuation outputs">
+              <li class="rx__pr" data-u="0.93" data-v="0.22"><a href="#operations">6WD Drive →</a></li>
+              <li class="rx__pr" data-u="0.93" data-v="0.50"><a href="#anatomy">Laser Arm →</a></li>
+              <li class="rx__pr" data-u="0.93" data-v="0.78"><a href="#app">OS Alert →</a></li>
+            </ul>
+          </div>
+
+          <p class="rx__hud mono">
+            <span>SYT EDGE PIPELINE · LIVE SIMULATION</span>
+            <span data-rx-hud>Packets 0 · Noise rejected 0 · Commands dispatched 0</span>
+          </p>
+        </div>
+
+        <div class="rx__stories" aria-live="polite">
+          <article class="rx__story" data-story="0">
+            <p class="mono">STAGE 01 // MULTI-SENSOR INGEST</p>
+            <h3>Raw field frames, LiDAR sweeps &amp; soil probes</h3>
+            <p>Front optical stereo streams, time-of-flight obstacle rays, wheel odometry and sub-surface moisture readings enter the bus continuously.</p>
+          </article>
+          <article class="rx__story" data-story="1" hidden>
+            <p class="mono">STAGE 02 // NOISE REJECTION</p>
+            <h3>Dust, glare and vibration get dropped early</h3>
+            <p>Harsh midday sunlight, wind-blown leaves and furrow chatter are filtered out in red before they can trigger false stops or wasted dosing.</p>
+          </article>
+          <article class="rx__story" data-story="2" hidden>
+            <p class="mono">STAGE 03 // EDGE AI FUSION</p>
+            <h3>Perception meets agronomic context</h3>
+            <p>Dedicated compute boards merge obstacle geometry with plant health and root-zone telemetry to select the safest, lowest-waste action.</p>
+          </article>
+          <article class="rx__story" data-story="3" hidden>
+            <p class="mono">STAGE 04 // PRECISION ACTUATION</p>
+            <h3>Torque to the hubs, laser to the stem, insight to your phone</h3>
+            <p>Commands route simultaneously to the six planetary wheel drives, the carbon-truss manipulator shear, metered hoppers and Sasyanterra OS.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= INTERACTIVE ROBOTICS LAB WALL (RP0X WALL) ================= -->
+    <section class="section wall-sec on-dark" id="lab" data-wall aria-labelledby="lab-title">
+      <div class="wrap">
+        <div class="wall__head">
+          <div>
+            <p class="kicker mono" data-reveal>Interactive Playground · 06 Tactile Studies</p>
+            <h2 class="wall__title" id="lab-title" data-split>Touch the <em>physics of SYT.</em></h2>
+            <p class="wall__sub" data-reveal>Hover, drag or tap any tile—or click to launch it full-size. Every study runs live in your browser at 60fps.</p>
+          </div>
+          <span class="mono" style="color:var(--copper-hi)">CLICK ANY TILE TO EXPAND ↗</span>
+        </div>
+
+        <div class="wall__grid" role="list">
+          <button type="button" class="xp xp--pop" data-xp="pop" role="listitem">
+            <span class="xp__meta mono"><i>EXP 01</i><i>EXPLOSION</i></span>
+            <span class="xp__stage" data-xp-stage></span>
+            <span class="xp__foot">
+              <b>Hardware Burst</b>
+              <span>Shatters Unit-02 into 70 tiles &amp; snaps back</span>
+            </span>
+          </button>
+
+          <button type="button" class="xp xp--magnet" data-xp="magnet" role="listitem">
+            <span class="xp__meta mono"><i>EXP 02</i><i>DOT FIELD</i></span>
+            <span class="xp__stage" data-xp-stage></span>
+            <span class="xp__foot">
+              <b>LiDAR Magnet</b>
+              <span>Sensor dot matrix warps &amp; ripples on touch</span>
+            </span>
+          </button>
+
+          <button type="button" class="xp xp--scan" data-xp="scan" role="listitem">
+            <span class="xp__meta mono"><i>EXP 03</i><i>X-RAY LENS</i></span>
+            <span class="xp__stage" data-xp-stage></span>
+            <span class="xp__foot">
+              <b>Sub-Hull Scanner</b>
+              <span>Wipe through stealth armor to internal anatomy</span>
+            </span>
+          </button>
+
+          <button type="button" class="xp xp--tilt" data-xp="tilt" role="listitem">
+            <span class="xp__meta mono"><i>EXP 04</i><i>MONOLITH</i></span>
+            <span class="xp__stage" data-xp-stage></span>
+            <span class="xp__foot">
+              <b>Brushed SYT Slab</b>
+              <span>3D perspective badge with live specular sheen</span>
+            </span>
+          </button>
+
+          <button type="button" class="xp xp--melt" data-xp="melt" role="listitem">
+            <span class="xp__meta mono"><i>EXP 05</i><i>KINETIC TYPE</i></span>
+            <span class="xp__stage" data-xp-stage></span>
+            <span class="xp__foot">
+              <b>Canopy Parting</b>
+              <span>Letters bend aside like crop rows as you pass</span>
+            </span>
+          </button>
+
+          <button type="button" class="xp xp--furrow" data-xp="furrow" role="listitem">
+            <span class="xp__meta mono"><i>EXP 06</i><i>WAYPOINT</i></span>
+            <span class="xp__stage" data-xp-stage></span>
+            <span class="xp__foot">
+              <b>Serpentine Row</b>
+              <span>Scrub Unit-02 along an autonomous furrow path</span>
+            </span>
+          </button>
+        </div>
+
+        <div hidden>
+          <p data-xp-desc="pop">Hover or tap to detonate the obsidian Unit-02 render into 126 independent fragments, then watch magnetic spring physics reassemble every seam cleanly.</p>
+          <p data-xp-desc="magnet">Move across the sensor grid to pull nearby points toward your cursor in copper and glacial cyan; click or tap anywhere to fire a radial shockwave.</p>
+          <p data-xp-desc="scan">Guide the optical inspection ring across Sasyanterra’s matte-black composite hull to reveal the full exploded internal architecture underneath.</p>
+          <p data-xp-desc="tilt">Inspect the custom brushed-titanium SYT emblem in 3D space with real-time pointer tilt and dynamic studio light reflection.</p>
+          <p data-xp-desc="melt">Interactive kinetic typography inspired by how Sasyanterra’s low-profile fairing glides between delicate crop canopies without bruising stems.</p>
+          <p data-xp-desc="furrow">Drag horizontally to scrub the autonomous waypoint tracker across a multi-row serpentine field pass.</p>
+        </div>
+
+        <dialog class="xpm" data-xpm aria-labelledby="xpm-title">
+          <div class="xpm__bar">
+            <p class="mono" data-xpm-no>EXP 01</p>
+            <button type="button" class="btn btn--ghost press" data-xpm-close style="--fg:#f5f5f2;--bd:rgba(255,255,255,0.25);min-height:38px;padding:0.4em 1em;font-size:0.84rem">Close ✕</button>
+          </div>
+          <div class="xpm__stage" data-xpm-stage></div>
+          <div class="xpm__foot">
+            <h3 id="xpm-title" data-xpm-title>Hardware Burst</h3>
+            <p data-xpm-text></p>
+          </div>
+        </dialog>
+      </div>
+    </section>
+
+    <!-- ================= AUTONOMOUS FIELD MISSION SCENE ================= -->
+    <section class="scene on-dark" id="operations" aria-labelledby="rover-title" data-scene>
+      <div class="scene__track" data-track>
+        <div class="scene__pin">
+          <div class="scene__head">
+            <div>
+              <p class="kicker mono">Field operations</p>
+              <h2 class="scene__title" id="rover-title">One UGV. <em>Four missions.</em></h2>
+            </div>
+            <div>
+              <ol class="steps" aria-label="Autonomous mission sequence">
+                <li class="step is-active" data-step><span class="mono">01</span><b>Navigate</b><span>Tracks crop rows with 6WD stability.</span></li>
+                <li class="step" data-step><span class="mono">02</span><b>Sense</b><span>Deploys soil probe to log field vitals.</span></li>
+                <li class="step" data-step><span class="mono">03</span><b>Detect</b><span>LiDAR &amp; optics flag rocks in path.</span></li>
+                <li class="step" data-step><span class="mono">04</span><b>Actuate</b><span>Laser-guided truss arm tends the crop.</span></li>
+              </ol>
+              <p class="steps__now" id="stepNow" aria-hidden="true"></p>
+            </div>
+          </div>
+
+          <div class="scene__stage">
+            <span class="ghost" id="ghost" aria-hidden="true">01</span>
+            <svg id="roverSvg" viewBox="0 120 1200 440" preserveAspectRatio="xMidYMax meet" role="img" aria-label="Interactive simulation: Sasyanterra v2.0 drives along a crop row, deploys its soil probe, locks onto a rock with LiDAR, and reaches a plant with its laser-guided robotic arm.">
+              <defs>
+                <linearGradient id="soilG" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0" stop-color="#171e24"/>
+                  <stop offset="1" stop-color="#080a0d"/>
+                </linearGradient>
+                <linearGradient id="beamG" x1="0" y1="0" x2="1" y2="0">
+                  <stop offset="0" stop-color="#5ce6ff" stop-opacity=".48"/>
+                  <stop offset="1" stop-color="#5ce6ff" stop-opacity="0"/>
+                </linearGradient>
+                <linearGradient id="hullG" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0" stop-color="#353b45"/>
+                  <stop offset="0.55" stop-color="#1f232a"/>
+                  <stop offset="1" stop-color="#12151a"/>
+                </linearGradient>
+                <pattern id="furrows" width="120" height="130" patternUnits="userSpaceOnUse" patternTransform="translate(0 0)">
+                  <path d="M-30 130 L30 0 L50 0 L-10 130Z" fill="#0d1217" opacity=".9"/>
+                  <path d="M30 130 L90 0 L95 0 L35 130Z" fill="#e5924c" opacity=".15"/>
+                </pattern>
+                <g id="sprout">
+                  <path d="M0 0V-30" stroke="#4ea874" stroke-width="4" stroke-linecap="round" fill="none"/>
+                  <path d="M0 -22c-14 0-20-9-20-18 12 0 20 7 20 18z" fill="#3f9162"/>
+                  <path d="M0 -30c12 0 18-8 18-16-11 0-18 6-18 16z" fill="#63c78d"/>
+                </g>
+              </defs>
+
+              <!-- Ground plane -->
+              <rect x="-200" y="430" width="1600" height="200" fill="url(#soilG)"/>
+              <rect id="furrowRect" x="-200" y="430" width="1600" height="200" fill="url(#furrows)"/>
+              <rect x="-200" y="428" width="1600" height="3" fill="#e5924c" opacity=".5"/>
+
+              <!-- LiDAR detection cone -->
+              <g id="beam" opacity="0">
+                <polygon id="beamPoly" points="500,318 1000,340 1000,420" fill="url(#beamG)"/>
+              </g>
+
+              <!-- Scrolling crop world -->
+              <g id="world" transform="translate(0 430)">
+                <g id="sprouts"></g>
+                <!-- Target crop -->
+                <g id="plant" transform="translate(1620 0)">
+                  <g id="plantSway">
+                    <path d="M0 0 C-3 -40 3 -80 0 -118" stroke="#52b77d" stroke-width="7" stroke-linecap="round" fill="none"/>
+                    <path d="M0 -40 C-30 -42 -44 -62 -42 -80 C-18 -78 -2 -64 0 -40Z" fill="#3f9965"/>
+                    <path d="M1 -64 C32 -66 46 -86 44 -104 C20 -102 4 -88 1 -64Z" fill="#68cf93"/>
+                    <path d="M0 -112 C-18 -118 -22 -136 -16 -150 C-2 -142 4 -128 0 -112Z" fill="#7be0a5"/>
+                    <path d="M0 -112 C16 -120 24 -136 20 -148 C6 -142 -2 -128 0 -112Z" fill="#52b77d"/>
+                  </g>
+                </g>
+                <!-- Obstacle boulder -->
+                <g id="rock" transform="translate(1910 0)">
+                  <path id="rockShape" d="M-62 0 L-46 -34 L-12 -58 L26 -46 L56 -14 L66 0Z" fill="#232a33" stroke="#455060" stroke-width="3" stroke-linejoin="round"/>
+                  <path d="M-12 -58 L-4 -22 L26 -46 M-4 -22 L-46 -34" stroke="#455060" stroke-width="2" fill="none"/>
+                  <g id="rockTag" opacity="0" transform="translate(0 -84)">
+                    <rect x="-92" y="-18" width="184" height="30" rx="15" fill="#5ce6ff"/>
+                    <text class="tag" x="0" y="4" text-anchor="middle">OBSTACLE LOCKED</text>
+                  </g>
+                </g>
+              </g>
+
+              <!-- Sasyanterra v2.0 6WD Stealth Rover -->
+              <g id="roverBody" transform="translate(330 430)">
+                <ellipse cx="0" cy="4" rx="225" ry="12" fill="#000" opacity=".5"/>
+
+                <!-- Sub-surface soil probe -->
+                <g id="probe" transform="translate(-150 -62)">
+                  <g id="probeRod" transform="scale(1 0.001)">
+                    <rect x="-3.5" y="0" width="7" height="112" rx="3" fill="#e5924c"/>
+                    <path d="M-4 112 L0 126 L4 112Z" fill="#5ce6ff"/>
+                  </g>
+                </g>
+                <g id="rings" transform="translate(-150 52)" opacity="0">
+                  <circle r="14" fill="none" stroke="#5ce6ff" stroke-width="2.5"/>
+                  <circle r="14" fill="none" stroke="#e5924c" stroke-width="2"/>
+                  <circle r="14" fill="none" stroke="#5ce6ff" stroke-width="1.5"/>
+                </g>
+                <g id="soilTag" opacity="0" transform="translate(-150 102)">
+                  <rect x="-104" y="-16" width="208" height="30" rx="15" fill="#e5924c"/>
+                  <text class="tag" x="0" y="4.5" text-anchor="middle">SOIL · TELEMETRY</text>
+                </g>
+
+                <!-- Carbon Rocker-Bogie Linkages & V-Slot Chassis -->
+                <rect x="-182" y="-88" width="364" height="18" rx="4" fill="#12151a" stroke="#363d48" stroke-width="1.5"/>
+                <line x1="-174" y1="-79" x2="174" y2="-79" stroke="#e5924c" stroke-width="1.5" opacity=".45"/>
+                <!-- Carbon bogie struts -->
+                <path d="M-142 -42 L-92 -80 L-22 -42" fill="none" stroke="#222730" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M-142 -42 L-92 -80 L-22 -42" fill="none" stroke="#4d5666" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M22 -42 L84 -80 L142 -42" fill="none" stroke="#222730" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M22 -42 L84 -80 L142 -42" fill="none" stroke="#4d5666" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <!-- Stainless turnbuckle -->
+                <line x1="-68" y1="-74" x2="58" y2="-74" stroke="#b8c2cf" stroke-width="4" stroke-linecap="round"/>
+
+                <!-- 6 Rugged Beadlock Wheels with Copper Hubs -->
+                <g id="wheels">
+                  <g class="wheel" transform="translate(-142 -42)"><g class="spin"><circle r="41" fill="#0d0f13"/><circle r="41" fill="none" stroke="#262c36" stroke-width="7" stroke-dasharray="8 8"/><circle r="24" fill="#151920" stroke="#3f4756" stroke-width="2.5"/><circle r="9" fill="#101216" stroke="#e5924c" stroke-width="3.5"/></g></g>
+                  <g class="wheel" transform="translate(0 -42)"><g class="spin"><circle r="41" fill="#0d0f13"/><circle r="41" fill="none" stroke="#262c36" stroke-width="7" stroke-dasharray="8 8"/><circle r="24" fill="#151920" stroke="#3f4756" stroke-width="2.5"/><circle r="9" fill="#101216" stroke="#e5924c" stroke-width="3.5"/></g></g>
+                  <g class="wheel" transform="translate(142 -42)"><g class="spin"><circle r="41" fill="#0d0f13"/><circle r="41" fill="none" stroke="#262c36" stroke-width="7" stroke-dasharray="8 8"/><circle r="24" fill="#151920" stroke="#3f4756" stroke-width="2.5"/><circle r="9" fill="#101216" stroke="#e5924c" stroke-width="3.5"/></g></g>
+                </g>
+
+                <!-- Rear Granular Hopper + Faceted Stealth Fairing -->
+                <rect x="-192" y="-156" width="66" height="62" rx="8" fill="#1a1e25" stroke="#3d4552" stroke-width="2"/>
+                <rect x="-182" y="-146" width="44" height="32" rx="4" fill="#0e1217" opacity=".85"/>
+                <!-- Main Stealth Faceted Hull -->
+                <polygon points="-130,-92 -130,-162 -35,-188 85,-184 182,-130 162,-92" fill="url(#hullG)" stroke="#434b59" stroke-width="2" stroke-linejoin="round"/>
+                <!-- Top Intake Hood -->
+                <polygon points="-40,-188 -12,-204 58,-200 76,-184" fill="#252a33" stroke="#4a5363" stroke-width="1.5"/>
+                <!-- Translucent Side Tank -->
+                <rect x="-92" y="-176" width="76" height="24" rx="6" fill="#111922" stroke="#5c687a" stroke-width="1.5"/>
+                <!-- Cockpit Visor Panels -->
+                <polygon points="82,-176 164,-134 112,-116 58,-152" fill="#11151b" stroke="#323946" stroke-width="1.5"/>
+                <!-- Glacial Cyan LED Accents -->
+                <line x1="54" y1="-146" x2="80" y2="-174" stroke="#5ce6ff" stroke-width="3.5" stroke-linecap="round"/>
+                <line x1="114" y1="-108" x2="154" y2="-116" stroke="#5ce6ff" stroke-width="3.5" stroke-linecap="round"/>
+                <!-- Copper Sasyanterra Stencil -->
+                <text x="-112" y="-108" fill="#e5924c" font-family="Chakra Petch, sans-serif" font-size="12.5" font-weight="700" letter-spacing="1.2">SASYANTERRA v2.0</text>
+
+                <!-- Front Optical / LiDAR Eye -->
+                <circle cx="168" cy="-118" r="14" fill="#0b0d11" stroke="#4a5568" stroke-width="2"/>
+                <circle id="eye" cx="168" cy="-118" r="6.5" fill="#5ce6ff"/>
+
+                <!-- Carbon-Truss Manipulator Arm (Turntable at x=108, y=-168) -->
+                <g id="armBase" transform="translate(108 -168)">
+                  <circle r="19" fill="#12151a" stroke="#e5924c" stroke-width="2.5"/>
+                  <circle r="6" fill="#e5924c"/>
+                  <g id="upper" transform="rotate(-125)">
+                    <rect x="-11" y="-11" width="188" height="22" rx="10" fill="#1c2028" stroke="#495363" stroke-width="2"/>
+                    <path d="M16 -7 L42 7 L68 -7 L94 7 L120 -7 L146 7" fill="none" stroke="#3b4352" stroke-width="2"/>
+                    <circle r="13" fill="#12151a"/><circle r="5" fill="#e5924c"/>
+                    <g id="fore" transform="translate(176 0) rotate(165)">
+                      <rect x="-10" y="-10" width="174" height="20" rx="9" fill="#222731" stroke="#525d70" stroke-width="2"/>
+                      <path d="M16 -6 L44 6 L72 -6 L100 6 L128 -6" fill="none" stroke="#3d4656" stroke-width="2"/>
+                      <circle r="13" fill="#12151a"/><circle r="5" fill="#e5924c"/>
+                      <!-- Bronze Wrist & Dual Shear End-Effector -->
+                      <g id="grip" transform="translate(162 0)">
+                        <rect x="-6" y="-11" width="16" height="22" rx="4" fill="#c97c3a"/>
+                        <rect x="8" y="-14" width="22" height="28" rx="6" fill="#111419"/>
+                        <!-- Laser Targeting Beam -->
+                        <line id="armLaser" x1="30" y1="0" x2="128" y2="0" stroke="#ff3b3b" stroke-width="2.2" stroke-dasharray="4 3" opacity="0"/>
+                        <g id="fingerA" transform="translate(26 -9) rotate(-8)">
+                          <path d="M0 -4 C14 -6 28 -2 36 5 C24 6 12 4 0 3Z" fill="#cfd6e0"/>
+                        </g>
+                        <g id="fingerB" transform="translate(26 9) rotate(8)">
+                          <path d="M0 4 C14 6 28 2 36 -5 C24 -6 12 -4 0 -3Z" fill="#cfd6e0"/>
+                        </g>
+                      </g>
+                    </g>
+                  </g>
+                </g>
+              </g>
+            </svg>
+            <p class="mono" style="position:absolute;right:var(--gutter);bottom:1rem;margin:0;text-align:right;color:rgba(245,245,242,0.52)" id="hud" aria-live="off">Mission telemetry · autonomous sequence</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= SASYANTERRA OS COMPANION APP ================= -->
+    <section class="section app on-dark" id="app" aria-labelledby="app-title">
+      <div class="wrap app__grid">
+        <div>
+          <p class="kicker mono" data-reveal>Sasyanterra OS</p>
+          <h2 id="app-title" data-split>The entire field, <em>in your pocket.</em></h2>
+          <p class="app__lede" data-reveal>Live telemetry, soil diagnostics, obstacle logs and actionable crop recommendations arrive directly in the companion mobile app—so you know what every row needs before walking the land.</p>
+          <ul class="app__feats" data-reveal data-reveal-i="1">
+            <li><i aria-hidden="true"></i><div><b>Real-time UGV position &amp; battery</b><span>Follow Unit-02 across rows with live waypoint status.</span></div></li>
+            <li><i aria-hidden="true"></i><div><b>Sub-surface soil vitals</b><span>Track moisture, temperature and nutrient trends by zone.</span></div></li>
+            <li><i aria-hidden="true"></i><div><b>AI crop recommendations</b><span>Clear alerts for obstacles, irrigation and targeted care.</span></div></li>
+          </ul>
+        </div>
+
+        <div class="phone-wrap">
+          <div class="phone" id="phone" role="region" aria-label="Interactive concept preview of the Sasyanterra mobile app">
+            <div class="phone__screen">
+              <div class="phone__bar mono">
+                <span>Sasyanterra</span>
+                <i aria-hidden="true"></i>
+                <span class="phone__live">Unit-02</span>
+              </div>
+              <div class="phone__head">
+                <div class="phone__title">Field Telemetry</div>
+                <span class="mono" style="font-size:0.6rem;color:var(--copper-hi)">v2.0</span>
+              </div>
+
+              <div class="phone__tabs" role="tablist" aria-label="App preview screens">
+                <button class="ptab is-on" type="button" data-ptab="0">Overview</button>
+                <button class="ptab" type="button" data-ptab="1">Soil</button>
+                <button class="ptab" type="button" data-ptab="2">Mission</button>
+              </div>
+
+              <!-- Screen 0: Overview -->
+              <div class="ppanel is-on" data-ppanel="0">
+                <div class="pcard">
+                  <b>UGV Position <em>ROW 04 · LIVE</em></b>
+                  <div class="map">
+                    <svg viewBox="0 0 100 60" preserveAspectRatio="none" aria-hidden="true">
+                      <path d="M0 46 C22 42 32 18 54 24 S84 36 100 14" fill="none" stroke="#5ce6ff" stroke-width="1.8" stroke-dasharray="3 3"/>
+                    </svg>
+                    <i aria-hidden="true"></i>
+                  </div>
+                </div>
+                <div class="pmetrics">
+                  <div class="pmetric"><span>CHASSIS</span><strong>6WD Nominal</strong></div>
+                  <div class="pmetric"><span>OBSTACLES</span><strong>1 Flagged</strong></div>
+                </div>
+                <div class="pcard pcard--accent">
+                  <b>AI Recommendation <em>NEW</em></b>
+                  <p>Topsoil moisture dipping in Zone B. Schedule micro-dosing pass along Rows 04–07.</p>
+                </div>
+              </div>
+
+              <!-- Screen 1: Soil -->
+              <div class="ppanel" data-ppanel="1">
+                <div class="pcard">
+                  <b>Moisture Index <em>ZONE A–C</em></b>
+                  <div class="pbar"><i style="width:74%"></i></div>
+                  <span class="mono" style="font-size:0.6rem;color:rgba(245,245,242,0.65)">Optimal root-zone hydration</span>
+                </div>
+                <div class="pcard">
+                  <b>Soil Probe Log <em>SCANNING</em></b>
+                  <div class="pmetrics">
+                    <div class="pmetric"><span>TEMP</span><strong>Stable</strong></div>
+                    <div class="pmetric"><span>PH / NPK</span><strong>Logged</strong></div>
+                  </div>
+                </div>
+                <div class="pcard pcard--accent">
+                  <b>Nutrient Note <em>HOPPER</em></b>
+                  <p>Granular hopper metered for low-waste root-zone application.</p>
+                </div>
+              </div>
+
+              <!-- Screen 2: Mission -->
+              <div class="ppanel" data-ppanel="2">
+                <div class="pcard">
+                  <b>Manipulator Arm <em>READY</em></b>
+                  <div class="pbar"><i style="width:88%"></i></div>
+                  <span class="mono" style="font-size:0.6rem;color:rgba(245,245,242,0.65)">Laser pruning end-effector calibrated</span>
+                </div>
+                <div class="pcard">
+                  <b>Obstacle Registry <em>LIDAR</em></b>
+                  <div class="pmetrics">
+                    <div class="pmetric"><span>ROW 04</span><strong>Rock bypassed</strong></div>
+                    <div class="pmetric"><span>PATH</span><strong>Clear</strong></div>
+                  </div>
+                </div>
+                <div class="pcard pcard--accent">
+                  <b>Payload Status <em>DUAL TANK</em></b>
+                  <p>Fluid reservoir and rear seed hopper sealed and ready for field pass.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <p class="phone__note mono">Concept interface · tap tabs to preview</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= LIVE SIGNAL LOG, ANALOGUE IST DIAL & RULE BREAKER (RP0X SIGNAL) ================= -->
+    <section class="section signal-sec on-dark" id="signal" aria-labelledby="signal-title">
+      <div class="wrap">
+        <div class="signal-head">
+          <div>
+            <p class="kicker mono" data-reveal>Sasyanterra Signal · Telemetry &amp; Build Log</p>
+            <h2 id="signal-title" data-split>What’s humming in the <em>workshop right now.</em></h2>
+          </div>
+          <span class="sg-live mono"><i aria-hidden="true"></i>LIVE // UNIT-02 BENCH</span>
+        </div>
+
+        <ul class="sgs" data-signal>
+          <li class="sg">
+            <a class="sg__a" href="#anatomy">
+              <span class="sg__dot" aria-hidden="true"></span>
+              <span class="sg__k mono">CHASSIS // 01</span>
+              <span class="sg__t">6WD Carbon Rocker-Bogie</span>
+              <span class="sg__n">Planetary hub reduction &amp; turnbuckle geometry calibrated across 299 X-Ray frames</span>
+              <span class="sg__d mono">ACTIVE</span>
+              <span class="sg__go" aria-hidden="true">→</span>
+            </a>
+          </li>
+          <li class="sg sg--cyan">
+            <a class="sg__a" href="#lab" data-open-xp="pop">
+              <span class="sg__dot" aria-hidden="true"></span>
+              <span class="sg__k mono">END-EFFECTOR // 02</span>
+              <span class="sg__t">Laser Pruning Shear</span>
+              <span class="sg__n">Optical stem-lock pod &amp; bronze quick-release wrist tested in Lab EXP-01</span>
+              <span class="sg__d mono">BENCH</span>
+              <span class="sg__go" aria-hidden="true">→</span>
+            </a>
+          </li>
+          <li class="sg sg--green">
+            <a class="sg__a" href="#app">
+              <span class="sg__dot" aria-hidden="true"></span>
+              <span class="sg__k mono">SOFTWARE // 03</span>
+              <span class="sg__t">Sasyanterra OS v2.0</span>
+              <span class="sg__n">Zone moisture heatmaps, LiDAR rock registry &amp; trilingual farm alerts</span>
+              <span class="sg__d mono">LIVE UI</span>
+              <span class="sg__go" aria-hidden="true">→</span>
+            </a>
+          </li>
+          <li class="sg">
+            <a class="sg__a" href="#join">
+              <span class="sg__dot" aria-hidden="true"></span>
+              <span class="sg__k mono">NEXT // 04</span>
+              <span class="sg__t">Unit-03 Field Trials</span>
+              <span class="sg__n">Opening collaboration slots for mechatronics, edge vision &amp; pilot farms</span>
+              <span class="sg__d mono">OPEN</span>
+              <span class="sg__go" aria-hidden="true">→</span>
+            </a>
+          </li>
+        </ul>
+
+        <!-- Analogue IST Field Clock + Global Ag-Belt Clocks -->
+        <div class="worldclocks" data-worldclocks>
+          <div class="wc-head">
+            <svg class="wc-dial" viewBox="0 0 100 100" aria-hidden="true">
+              <circle class="wc-face" cx="50" cy="50" r="46"/>
+              <g class="wc-ticks" data-wc-ticks></g>
+              <line class="wc-h" data-wc-hand="h" x1="50" y1="50" x2="50" y2="25"/>
+              <line class="wc-m" data-wc-hand="m" x1="50" y1="50" x2="50" y2="16"/>
+              <line class="wc-s" data-wc-hand="s" x1="50" y1="56" x2="50" y2="13"/>
+              <circle class="wc-pin" cx="50" cy="50" r="3.2"/>
+            </svg>
+            <div>
+              <p class="mono" style="color:var(--cyan);margin:0">BASE TELEMETRY CLOCK · INDIA</p>
+              <p class="wc-head__t"><span data-ist-clock data-seconds>--:--:--</span><small class="mono">IST (UTC+5:30)</small></p>
+              <p class="wc-head__next">Engineered in India for agricultural belts across every time zone.</p>
+            </div>
+          </div>
+
+          <div class="wcs" aria-label="Global agricultural region clocks">
+            <div class="wcs__track">
+              <div class="wcs__row">
+                <span class="wcs__item" data-tz="Asia/Kolkata"><i aria-hidden="true"></i><em>Coimbatore &amp; Delta</em><b data-wc-now>--:--:--</b></span>
+                <span class="wcs__item" data-tz="Asia/Tokyo"><i aria-hidden="true"></i><em>Hokkaido</em><b data-wc-now>--:--:--</b></span>
+                <span class="wcs__item" data-tz="Europe/Amsterdam"><i aria-hidden="true"></i><em>Wageningen</em><b data-wc-now>--:--:--</b></span>
+                <span class="wcs__item" data-tz="America/Los_Angeles"><i aria-hidden="true"></i><em>Salinas Valley</em><b data-wc-now>--:--:--</b></span>
+                <span class="wcs__item" data-tz="America/Sao_Paulo"><i aria-hidden="true"></i><em>Mato Grosso</em><b data-wc-now>--:--:--</b></span>
+                <span class="wcs__item" data-tz="Australia/Sydney"><i aria-hidden="true"></i><em>Riverina</em><b data-wc-now>--:--:--</b></span>
+              </div>
+              <div class="wcs__row" aria-hidden="true">
+                <span class="wcs__item" data-tz="Asia/Kolkata"><i></i><em>Coimbatore &amp; Delta</em><b data-wc-now>--:--:--</b></span>
+                <span class="wcs__item" data-tz="Asia/Tokyo"><i></i><em>Hokkaido</em><b data-wc-now>--:--:--</b></span>
+                <span class="wcs__item" data-tz="Europe/Amsterdam"><i></i><em>Wageningen</em><b data-wc-now>--:--:--</b></span>
+                <span class="wcs__item" data-tz="America/Los_Angeles"><i></i><em>Salinas Valley</em><b data-wc-now>--:--:--</b></span>
+                <span class="wcs__item" data-tz="America/Sao_Paulo"><i></i><em>Mato Grosso</em><b data-wc-now>--:--:--</b></span>
+                <span class="wcs__item" data-tz="Australia/Sydney"><i></i><em>Riverina</em><b data-wc-now>--:--:--</b></span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Kinetic Rule Breaker (5 Letter-Physics Modes) -->
+        <div class="rules">
+          <p class="rules__k mono">THE SYT FIELD AXIOMS · CLICK TO DETONATE TYPE</p>
+          <div class="rules__stage" data-rules data-list='["PRECISION OVER BRUTE HORSEPOWER.","TREAT THE PLANT, NEVER SPRAY BLIND.","SIX WHEELS PLANTED. ZERO COMPACTION.","MODULAR IN MINUTES, NOT WORKSHOP WEEKS.","BUILT WITH FARMERS, FOR LIVING SOIL."]'>
+            <p class="rules__text" data-rules-text aria-hidden="true"></p>
+            <p class="sr-only" data-rules-live aria-live="polite"></p>
+          </div>
+          <div class="rules__bar">
+            <button type="button" class="btn btn--copper press" data-rules-next data-haptic="14">Break another rule ↻</button>
+            <span class="mono" data-rules-count>01 / 05</span>
+            <span class="rules__tag mono">5 KINETIC MODES · COLLIDE / SCATTER / DROP / STRETCH / FLIP</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= WHO IT IS FOR ================= -->
+    <section class="section who-sec who" id="who" aria-labelledby="who-title">
+      <div class="wrap">
+        <p class="kicker mono" data-reveal>Built for the land</p>
+        <h2 id="who-title" data-split>Engineered for people who feed the world.</h2>
+        <ul class="who__list">
+          <li class="who__row" data-reveal>
+            <span class="mono">01</span>
+            <h3>Farmers</h3>
+            <p>Less exhausting manual fieldwork and a continuous, data-backed picture of soil and crop health.</p>
+          </li>
+          <li class="who__row" data-reveal>
+            <span class="mono">02</span>
+            <h3>Agricultural workers</h3>
+            <p>A tireless 6WD robotic partner that handles repetitive pruning, sensing and micro-dispensing tasks.</p>
+          </li>
+          <li class="who__row" data-reveal>
+            <span class="mono">03</span>
+            <h3>Small &amp; medium farms</h3>
+            <p>Accessible, modular smart-farming technology consolidated into one rugged multipurpose UGV.</p>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ================= FAQ ================= -->
+    <section class="section faq" id="questions" aria-labelledby="faq-title">
+      <div class="wrap faq__grid">
+        <div class="faq__side">
+          <p class="kicker mono" data-reveal>Questions</p>
+          <h2 id="faq-title" data-split>Plain questions, straight answers.</h2>
+          <p class="faq__intro" data-reveal>Have a technical question or farm use-case? Message us directly and the team will answer.</p>
+        </div>
+
+        <div data-faq>
+          <details>
+            <summary class="press" data-haptic="8">What is Sasyanterra?<i aria-hidden="true"></i></summary>
+            <div class="ans"><p>Sasyanterra (v2.0 // सस्यनंतेरा) is an AI-assisted, six-wheel-drive multipurpose agricultural rover. It combines carbon rocker-bogie mobility, multi-sensor perception, a laser-guided robotic arm, dual payload hoppers and a companion mobile app for smarter, more sustainable farming.</p></div>
+          </details>
+          <details>
+            <summary class="press" data-haptic="8">Can I buy or pilot one right now?<i aria-hidden="true"></i></summary>
+            <div class="ans"><p>Not commercially yet—Sasyanterra is currently an active working prototype (Unit-02). If you’d like to follow development, collaborate or discuss farm trials, message us on WhatsApp.</p></div>
+          </details>
+          <details>
+            <summary class="press" data-haptic="8">What can the robotic arm and hoppers do?<i aria-hidden="true"></i></summary>
+            <div class="ans"><p>The carbon-truss manipulator supports interchangeable tools such as laser-guided pruning shears and grippers, while the translucent side tank and rear gear-metered hopper support targeted fluid and granular dispensing.</p></div>
+          </details>
+          <details>
+            <summary class="press" data-haptic="8">What does the Sasyanterra mobile app do?<i aria-hidden="true"></i></summary>
+            <div class="ans"><p>It brings field telemetry from the rover straight to your phone—displaying soil conditions, flagged obstacles, UGV status and practical crop-care recommendations.</p></div>
+          </details>
+          <details>
+            <summary class="press" data-haptic="8">Who is behind Sasyanterra?<i aria-hidden="true"></i></summary>
+            <div class="ans"><p>Sasyanterra is led by Sai Siddarth (Team Leader), Rian (Assistant Team Leader) and Pranaouv (Developer), focused on making high-capability agricultural robotics practical and accessible.</p></div>
+          </details>
+          <details>
+            <summary class="press" data-haptic="8">How do I contact the team?<i aria-hidden="true"></i></summary>
+            <div class="ans"><p>The fastest way is WhatsApp or a direct phone call on <a href="tel:+919500702412">95007 02412</a>. You can also use the quick note form below to open a ready-to-send WhatsApp message.</p></div>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= JOIN US ================= -->
+    <section class="section join" id="join" aria-labelledby="join-title">
+      <div class="wrap join__grid">
+        <div>
+          <p class="kicker mono" data-reveal>Join the build</p>
+          <h2 id="join-title" data-split>Build Unit-03 <em>with us.</em></h2>
+          <p class="join__lede" data-reveal>Sasyanterra is an evolving hardware and AI platform. Whether you build mechatronics, write embedded or vision code, design hardware, or want to test on real farmland, tell us what you’d love to contribute.</p>
+          <p class="join__fine mono" data-reveal>Open collaboration · every note is read by the core team</p>
+        </div>
+
+        <form class="form form--light" id="apply" action="https://wa.me/919500702412" method="get" target="_blank" novalidate data-reveal data-reveal-i="1" aria-labelledby="apply-title">
+          <h3 id="apply-title">Apply to join</h3>
+          <div class="field">
+            <label for="j-name">Your name</label>
+            <input id="j-name" name="name" type="text" autocomplete="name" placeholder="Your name" required aria-describedby="e-jname">
+            <span class="err" id="e-jname" aria-live="polite"></span>
+          </div>
+          <div class="field">
+            <label for="j-skill">I could help with</label>
+            <select id="j-skill" name="skill">
+              <option>Mechatronics &amp; robotics</option>
+              <option>AI, embedded software or app</option>
+              <option>Industrial design or media</option>
+              <option>Farm field-testing &amp; agronomy</option>
+              <option>Something else</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="j-msg">A few lines about you</label>
+            <textarea id="j-msg" name="message" placeholder="What you’ve built, studied or farmed, and why Sasyanterra" required aria-describedby="e-jmsg"></textarea>
+            <span class="err" id="e-jmsg" aria-live="polite"></span>
+          </div>
+          <button class="btn press" type="submit" data-haptic="20">Apply on WhatsApp</button>
+          <p class="form__status" id="jstatus" role="status" aria-live="polite"></p>
+          <p class="form__note">Opens WhatsApp with your note pre-filled. Nothing is sent until you tap send there.</p>
+        </form>
+      </div>
+    </section>
+
+    <!-- ================= 1,100-DOT SYT MUTATION, SPLIT & EXPLOSION STAGE (RP0X MUTATION) ================= -->
+    <section class="mutation on-dark" id="mutation" data-mutation aria-labelledby="mutation-title">
+      <div class="mutation__stage">
+        <canvas class="mutation__cv" data-mu-cv aria-hidden="true"></canvas>
+        <p class="mutation__hud mono">
+          <span data-mu-phase>01 Form // Hexagon</span>
+          <span class="mutation__hint">Move pointer to warp · Click anywhere to detonate &amp; morph · Scroll to converge SYT</span>
+        </p>
+        <h2 class="mutation__msg" id="mutation-title">1,100 sensors in motion. <em>One SYT standard.</em></h2>
+        <button type="button" class="btn btn--ghost mutation__btn press" data-mu-click style="--fg:#f5f5f2;--bd:rgba(255,255,255,0.28)" data-haptic="15">Detonate &amp; morph shape ✦</button>
+      </div>
+    </section>
+
+    <!-- ================= CONTACT ================= -->
+    <section class="section contact on-dark" id="contact" aria-labelledby="contact-title">
+      <div class="wrap contact__grid">
+        <div>
+          <p class="kicker mono" data-reveal>Direct channel</p>
+          <h2 id="contact-title" data-split>Curious? <em>Say hello.</em></h2>
+          <p class="contact__lede" data-reveal>Reach out on WhatsApp, launch our 4-step Guided Briefing, call us directly, or compose a quick note here—it opens WhatsApp with your message formatted and ready.</p>
+          <div class="contact__actions" data-reveal>
+            <a class="btn btn--copper press" href="https://wa.me/919500702412?text=Hi%20Sasyanterra%20team%2C%20" target="_blank" rel="noopener" data-haptic="20" data-magnetic="0.18">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 21l1.7-5A9 9 0 1 1 8 19.4z"/></svg>
+              WhatsApp us
+            </a>
+            <button class="btn btn--ghost press" type="button" data-inquiry data-haptic="15">Guided briefing →</button>
+            <a class="btn btn--ghost press" href="tel:+919500702412" data-haptic="15">Call 95007 02412</a>
+          </div>
+          <ul class="contact__social" data-reveal>
+            <li><a href="https://www.instagram.com/sasyanterra/" target="_blank" rel="noopener">Instagram <span class="mono">@sasyanterra</span></a></li>
+            <li><a href="https://youtube.com/@sasyanterra?si=xmLrFuWymdtqv5dJ" target="_blank" rel="noopener">YouTube <span class="mono">@sasyanterra</span></a></li>
+          </ul>
+        </div>
+
+        <form class="form" id="enquiry" action="https://wa.me/919500702412" method="get" target="_blank" novalidate data-reveal data-reveal-i="1" aria-labelledby="form-title">
+          <h3 id="form-title">Send a note</h3>
+          <div class="field">
+            <label for="f-name">Your name</label>
+            <input id="f-name" name="name" type="text" autocomplete="name" placeholder="Your name" required aria-describedby="e-name">
+            <span class="err" id="e-name" aria-live="polite"></span>
+          </div>
+          <div class="field">
+            <label for="f-role">I am a</label>
+            <select id="f-role" name="role">
+              <option>Farmer</option>
+              <option>Agricultural worker</option>
+              <option>Farm business owner</option>
+              <option>Student or researcher</option>
+              <option>Investor or partner</option>
+              <option>Something else</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="f-msg">Your message</label>
+            <textarea id="f-msg" name="message" placeholder="Tell us what you’d like to know about Sasyanterra" required aria-describedby="e-msg"></textarea>
+            <span class="err" id="e-msg" aria-live="polite"></span>
+          </div>
+          <button class="btn btn--copper press" type="submit" data-haptic="20">Send on WhatsApp</button>
+          <p class="form__status" id="status" role="status" aria-live="polite"></p>
+          <p class="form__note">Nothing is sent until you press send inside WhatsApp.</p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="foot on-dark">
+    <div class="wrap foot__top" style="padding-inline:0">
+      <div>
+        <a class="brand" href="#top" aria-label="Sasyanterra SYT, back to top">
+          <span class="brand__mark brand__mark--syt" aria-hidden="true">
+            <svg viewBox="0 0 784 424"><use href="#syt-logo"/></svg>
+          </span>
+          <span class="brand__text">
+            <span class="brand__name" style="color:#fff">Sasyanterra</span>
+            <span class="brand__sub" style="color:var(--copper-hi)"><span>SYT · v2.0</span><span>//</span><span class="deva">सस्यनंतेरा</span></span>
+          </span>
+        </a>
+        <p class="foot__line">Autonomous 6WD agricultural UGV. Precision autonomy, forged for the field.</p>
+      </div>
+      <ul class="foot__nav" aria-label="Footer">
+        <li><a href="#anatomy">Architecture</a></li>
+        <li><a href="#ring">Orbital Ring</a></li>
+        <li><a href="#story">Vision</a></li>
+        <li><a href="#reactor">Reactor</a></li>
+        <li><a href="#lab">Lab</a></li>
+        <li><a href="#operations">Field Ops</a></li>
+        <li><a href="#app">App</a></li>
+        <li><a href="#signal">Signal</a></li>
+        <li><a href="#questions">FAQ</a></li>
+        <li><a href="#join">Join us</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+
+    <!-- Interactive Dot-Matrix SYT Signature -->
+    <div class="wrap foot__signature" style="padding-inline:0">
+      <div class="foot__sig-copy">
+        <p class="foot__sig-title">Forged under the <em>SYT mark.</em></p>
+        <p class="foot__sig-hint mono">SWEEP POINTER ACROSS DOTS · CLICK TO SCATTER &amp; REASSEMBLE</p>
+      </div>
+      <canvas class="footer-dots" data-syt-dots width="460" height="248" role="img" aria-label="Interactive SYT dot-matrix signature"></canvas>
+    </div>
+
+    <div class="wrap foot__bot mono" style="padding-inline:0">
+      <span>© <span data-year>2026</span> Sasyanterra (SYT) · <a href="privacy.html">Privacy</a> · <a href="terms.html">Terms</a></span>
+      <span>Unit-02 · Team Sasyanterra · IST <span data-ist-clock>--:--</span></span>
+      <span class="foot__credit">Made by <b>SIDDOO</b></span>
+      <a href="#top">Back to top ↑</a>
+    </div>
+  </footer>
+
+  <script src="js/i18n.js" defer></script>
+  <script src="js/site-kit.js" defer></script>
+  <script src="js/main.js" defer></script>
+  <script src="js/rp0x-fx.js" defer></script>
+</body>
+</html>
